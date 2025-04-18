@@ -30,24 +30,21 @@ def create_data_generators(data_dir_train, data_dir_val, data_dir_test, img_size
         data_dir_train,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='categorical',
-        classes=['Adenocarcinoma', 'Squamous cell carcinoma', 'Small cell carcinoma', 'Normal']
+        class_mode='categorical'
     )
 
     val_generator = val_datagen.flow_from_directory(
         data_dir_val,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='categorical',
-        classes=['Adenocarcinoma', 'Squamous cell carcinoma', 'Small cell carcinoma', 'Normal']
+        class_mode='categorical'
     )
 
     test_generator = test_datagen.flow_from_directory(
         data_dir_test,
         target_size=(img_size, img_size),
         batch_size=batch_size,
-        class_mode='categorical',
-        classes=['Adenocarcinoma', 'Squamous cell carcinoma', 'Small cell carcinoma', 'Normal']
+        class_mode='categorical'
     )
 
     return train_generator, val_generator, test_generator
@@ -98,12 +95,6 @@ def train_and_evaluate(data_dir_train, data_dir_val, data_dir_test, img_size=224
         restore_best_weights=True
     )
 
-    # checkpoint = callbacks.ModelCheckpoint(
-    #     'best_model_vgg16.h5',
-    #     monitor='val_accuracy',
-    #     save_best_only=True,
-    #     mode='max'
-    # )
 
     # Initial training with frozen layers
     print("Training with frozen layers")
@@ -111,7 +102,6 @@ def train_and_evaluate(data_dir_train, data_dir_val, data_dir_test, img_size=224
         train_generator,
         epochs=initial_epochs,
         validation_data=val_generator,
-        # callbacks=[early_stopping, checkpoint]
         callbacks=[early_stopping]
     )
 
@@ -130,7 +120,6 @@ def train_and_evaluate(data_dir_train, data_dir_val, data_dir_test, img_size=224
         train_generator,
         epochs=fine_tune_epochs,
         validation_data=val_generator,
-        # callbacks=[early_stopping, checkpoint]
         callbacks=[early_stopping]
     )
 
